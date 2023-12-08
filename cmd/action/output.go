@@ -13,6 +13,8 @@ func writeOutput(key, value string) {
 			fmt.Println("Error opening GITHUB_OUTPUT file:", err)
 			return
 		}
+
+		//nolint:errcheck
 		defer f.Close()
 
 		_, err = fmt.Fprintf(f, "%s=%s\n", key, value)
@@ -26,6 +28,8 @@ func writeOutput(key, value string) {
 
 // setActionOutputs sets the GitHub Action outputs, with backward compatibility for
 // self-hosted runners without a GITHUB_OUTPUT environment file.
+//
+//nolint:unused
 func setActionOutputs(outputPairs map[string]string) {
 	for key, value := range outputPairs {
 		writeOutput(key, value)
