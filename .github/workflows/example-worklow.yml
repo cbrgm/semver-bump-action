@@ -6,10 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      latest_tag: ${{ steps.step1.outputs.test }}
     steps:
-
       - name: Get Latest Tag
         id: current
         run: |
