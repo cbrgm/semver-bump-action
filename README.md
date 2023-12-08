@@ -34,7 +34,7 @@ The bumped semantic version. For example, if `current-version` is `1.2.3` and `b
 Add the following step to your GitHub Actions Workflow:
 
 ```yaml
-name: Tag Release
+name: Demo Workflow
 
 on:
   workflow_dispatch:
@@ -42,10 +42,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      latest_tag: ${{ steps.step1.outputs.test }}
     steps:
-
       - name: Get Latest Tag
         id: current
         run: |
@@ -56,12 +53,13 @@ jobs:
         id: bump
         uses: cbrgm/semver-bump-action@main
         with:
-          current-version: ${{ steps.current.outputs.latest_tag }}
+          current-version: ${{ env.latest_tag }}
           bump-level: minor
 
       - name: Output
         run: |
-          new_tag=${{ steps.bump.outputs.next-version }}
+          new_tag=${{ steps.bump.outputs.new_version }}
+          echo $new_tag
           echo $new_tag
 ```
 
@@ -76,8 +74,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      latest_tag: ${{ steps.step1.outputs.test }}
     steps:
 
       - name: Checkout
@@ -94,14 +90,14 @@ jobs:
         id: bump
         uses: cbrgm/semver-bump-action@main
         with:
-          current-version: ${{ steps.current.outputs.latest_tag }}
+          current-version: ${{ env.latest_tag }}
           bump-level: minor
 
       - name: Push Git Tag
         run: |
           git fetch --tags
           latest_tag=$(git describe --tags --abbrev=0)
-          new_tag=${{ steps.bump.outputs.next-version }}
+          new_tag=${{ steps.bump.outputs.new_version }}
           if [[ $(git rev-list $latest_tag..HEAD --count) -gt 0 ]]; then
             git config user.name "GitHub Actions"
             git config user.email "github-actions@users.noreply.github.com"
