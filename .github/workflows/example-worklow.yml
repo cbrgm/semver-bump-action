@@ -22,5 +22,5 @@ jobs:
 
       - name: Output
         run: |
-          new_tag=${{ steps.bump.outputs.next-version }}
+          new_tag=${{ steps.bump.outputs.next_version }}
           echo $new_tag
