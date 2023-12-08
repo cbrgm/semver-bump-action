@@ -1,0 +1,30 @@
+name: 'Semver Bump Action'
+description: 'Automatically bump the given semver version up'
+author: 'cbrgm'
+
+# Define your inputs here.
+inputs:
+  current-version:
+    description: 'The version to bump'
+    required: true
+  bump-level:
+    description: 'The semver bump level'
+    required: true
+  prerelease-tag:
+    description: 'The tag to use for prereleases'
+    required: false
+outputs:
+  new_version:
+    description: 'The bumped semver version'
+
+runs:
+  using: docker
+  image: 'docker://quay.io/cbrgm/semver-bump-action:v1'
+  args:
+    - ${{ inputs.current-version }}
+    - ${{ inputs.bump-level }}
+    - ${{ inputs.prerelease-tag }}
+
+branding:
+  icon: bar-chart
+  color: red
