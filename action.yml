@@ -21,8 +21,11 @@ runs:
   using: docker
   image: 'docker://quay.io/cbrgm/semver-bump-action:v1'
   args:
+    - --current-version
     - ${{ inputs.current-version }}
+    - --bump-level
     - ${{ inputs.bump-level }}
+    - --prerelease-tag
     - ${{ inputs.prerelease-tag }}
 
 branding:
