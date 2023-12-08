@@ -80,7 +80,7 @@ func bumpStandardVersion(v *semver.Version, level string) (semver.Version, error
 	return semver.Version{}, errors.New("invalid standard version bump level")
 }
 
-func bumpPreReleaseVersion(v *semver.Version, level string, preReleaseTag string) (semver.Version, error) {
+func bumpPreReleaseVersion(v *semver.Version, level, preReleaseTag string) (semver.Version, error) {
 	var newVersion semver.Version
 	var err error
 
