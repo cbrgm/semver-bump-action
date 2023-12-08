@@ -2,6 +2,25 @@ name: Tag Release
 
 on:
   workflow_dispatch:
+    inputs:
+      bump-level:
+        required: true
+        type: choice
+        description: 'The semver bump level'
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+          - 'premajor'
+          - 'preminor'
+          - 'prepatch'
+          - 'prerelease'
+        default: 'patch' # You can adjust the default value as needed
+
+      prerelease-tag:
+        required: true
+        description: 'The tag to use for prereleases'
+        default: 'alpha' # Set a default or remove the default line if no default is desired
 
 jobs:
   build:
@@ -10,6 +29,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
 
       - name: Get Latest Tag
         id: current
@@ -24,7 +45,8 @@ jobs:
         uses: cbrgm/semver-bump-action@main
         with:
           current-version: ${{ env.latest_tag }}
-          bump-level: patch
+          bump-level: ${{ github.event.inputs.bump-level }}
+          prerelease-tag: ${{ github.event.inputs.prerelease-tag }}
 
       - name: Push Git Tag
         run: |
