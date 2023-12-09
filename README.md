@@ -4,7 +4,7 @@
 
 [![GitHub release](https://img.shields.io/github/release/cbrgm/semver-bump-action.svg)](https://github.com/cbrgm/semver-bump-action)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cbrgm/semver-bump-action)](https://goreportcard.com/report/github.com/cbrgm/semver-bump-action)
-[![test-and-build](https://github.com/cbrgm/semver-bump-action/actions/workflows/build.yml/badge.svg)](https://github.com/cbrgm/semver-bump-action/actions/workflows/build.yml)
+[![test-and-build](https://github.com/cbrgm/semver-bump-action/actions/workflows/go-build.yml/badge.svg)](https://github.com/cbrgm/semver-bump-action/actions/workflows/go-build.yml)
 
 ## Inputs
 
