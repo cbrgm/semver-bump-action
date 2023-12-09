@@ -61,7 +61,7 @@ jobs:
           image: ${{ env.BINARY_NAME }}
           tags: ${{ env.DOCKER_TAGS }}
           containerfiles: |
-            ./Containerfile
+            ./Dockerfile
 
       - name: Push Image to Registry
         id: push-to-quay
