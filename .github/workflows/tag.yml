@@ -1,6 +1,9 @@
-name: Tag Release
+name: Publish Tag
 
 on:
+  schedule:
+    - cron: '0 0 * * 0'  # At 00:00 (12 AM) on Sunday
+
   workflow_dispatch:
     inputs:
       bump-level:
@@ -15,15 +18,15 @@ on:
           - 'preminor'
           - 'prepatch'
           - 'prerelease'
-        default: 'patch' # You can adjust the default value as needed
+        default: 'patch'
 
       prerelease-tag:
-        required: true
+        required: false
         description: 'The tag to use for prereleases'
-        default: 'alpha' # Set a default or remove the default line if no default is desired
+        default: 'alpha'
 
 jobs:
-  build:
+  publish-tag:
     runs-on: ubuntu-latest
     steps:
 
@@ -40,7 +43,7 @@ jobs:
           echo "current version is: $latest_tag"
           echo "latest_tag=$latest_tag" >> $GITHUB_ENV
 
-      - name: Bump Minor Version
+      - name: Bump Version
         id: bump
         uses: cbrgm/semver-bump-action@main
         with:
@@ -48,7 +51,7 @@ jobs:
           bump-level: ${{ github.event.inputs.bump-level }}
           prerelease-tag: ${{ github.event.inputs.prerelease-tag }}
 
-      - name: Push Git Tag
+      - name: Publish Git Tag
         run: |
           git fetch --tags
           latest_tag=$(git tag --sort=taggerdate | tail -n 1)
@@ -59,5 +62,5 @@ jobs:
             git tag $new_tag
             git push origin $new_tag
           else
-            echo "No new commits since last tag. Skipping tag push."
+            echo "No new commits since last tag. Skipping tag push. ($new_tag)"
           fi

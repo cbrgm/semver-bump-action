@@ -66,37 +66,60 @@ jobs:
 Example: Bump + Publish Minor Version Tag
 
 ```yaml
-name: Tag Release
+name: Publish Tag
 
 on:
   workflow_dispatch:
+    inputs:
+      bump-level:
+        required: true
+        type: choice
+        description: 'The semver bump level'
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+          - 'premajor'
+          - 'preminor'
+          - 'prepatch'
+          - 'prerelease'
+        default: 'patch'
+
+      prerelease-tag:
+        required: false
+        description: 'The tag to use for prereleases'
+        default: 'alpha'
 
 jobs:
-  build:
+  publish-tag:
     runs-on: ubuntu-latest
     steps:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
 
       - name: Get Latest Tag
         id: current
         run: |
-          latest_tag=$(git describe --tags --abbrev=0)
+          git fetch --tags
+          latest_tag=$(git tag --sort=taggerdate | tail -n 1)
           echo "current version is: $latest_tag"
           echo "latest_tag=$latest_tag" >> $GITHUB_ENV
 
-      - name: Bump Minor Version
+      - name: Bump Version
         id: bump
         uses: cbrgm/semver-bump-action@main
         with:
           current-version: ${{ env.latest_tag }}
-          bump-level: minor
+          bump-level: ${{ github.event.inputs.bump-level }}
+          prerelease-tag: ${{ github.event.inputs.prerelease-tag }}
 
-      - name: Push Git Tag
+      - name: Publish Tag
         run: |
           git fetch --tags
-          latest_tag=$(git describe --tags --abbrev=0)
+          latest_tag=$(git tag --sort=taggerdate | tail -n 1)
           new_tag=${{ steps.bump.outputs.new_version }}
           if [[ $(git rev-list $latest_tag..HEAD --count) -gt 0 ]]; then
             git config user.name "GitHub Actions"
