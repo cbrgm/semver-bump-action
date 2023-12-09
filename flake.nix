@@ -41,6 +41,7 @@
           default = pkgs.mkShell {
             shellHook = "exec zsh && echo Welcome to your Go dev shell!";
             packages = with pkgs; [
+              gnumake
               zsh
               go-mockery
               golangci-lint
@@ -49,6 +50,5 @@
             ];
           };
         });
-
     };
 }
