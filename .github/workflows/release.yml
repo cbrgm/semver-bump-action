@@ -48,11 +48,11 @@ jobs:
         with:
           generate_release_notes: true
           files: |
-            ${BINARY_NAME}_darwin_amd64.tar.gz
-            ${BINARY_NAME}_darwin_arm64.tar.gz
-            ${BINARY_NAME}_linux_amd64.tar.gz
-            ${BINARY_NAME}_linux_arm64.tar.gz
-            ${BINARY_NAME}_windows_amd64.tar.gz
+            ${{ env.BINARY_NAME }}_darwin_amd64.tar.gz
+            ${{ env.BINARY_NAME }}_darwin_arm64.tar.gz
+            ${{ env.BINARY_NAME }}_linux_amd64.tar.gz
+            ${{ env.BINARY_NAME }}_linux_arm64.tar.gz
+            ${{ env.BINARY_NAME }}_windows_amd64.tar.gz
 
       - name: Build Docker Image
         id: build-image
