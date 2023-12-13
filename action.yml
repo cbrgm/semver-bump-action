@@ -19,7 +19,7 @@ outputs:
 
 runs:
   using: docker
-  image: 'docker://quay.io/cbrgm/semver-bump-action:v1'
+  image: 'docker://ghcr.io/cbrgm/semver-bump-action:v1'
   args:
     - --current-version
     - ${{ inputs.current-version }}
