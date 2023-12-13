@@ -19,6 +19,7 @@ permissions:
 jobs:
   container:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
 
     strategy:
       matrix:
