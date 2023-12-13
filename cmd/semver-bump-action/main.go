@@ -4,11 +4,21 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"runtime"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/Masterminds/semver/v3"
 	"github.com/alexflint/go-arg"
+)
+
+// Global variables for application metadata.
+var (
+	Version   string              // Version of the application.
+	Revision  string              // Revision or Commit this binary was built from.
+	GoVersion = runtime.Version() // GoVersion running this binary.
+	StartTime = time.Now()        // StartTime of the application.
 )
 
 // ActionInputs struct holds the required environment variables.
@@ -16,6 +26,11 @@ type ActionInputs struct {
 	CurrentVersion string `arg:"--current-version,env:CURRENT_VERSION,required"` // The current semantic version
 	BumpLevel      string `arg:"--bump-level,env:BUMP_LEVEL,required"`           // The level to bump the version (major, minor, patch, etc.)
 	PreReleaseTag  string `arg:"--prerelease-tag,env:PRERELEASE_TAG"`            // Optional tag for prerelease versions
+}
+
+// Version returns a formatted string with application version details.
+func (ActionInputs) Version() string {
+	return fmt.Sprintf("Version: %s %s\nBuildTime: %s\n%s\n", Revision, Version, StartTime.Format("2006-01-02"), GoVersion)
 }
 
 func main() {
