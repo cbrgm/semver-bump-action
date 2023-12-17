@@ -1,14 +1,10 @@
 module github.com/cbrgm/semver-bump-action
 
-go 1.21.4
+go 1.21.5
 
 require (
 	github.com/Masterminds/semver/v3 v3.2.1
 	github.com/alexflint/go-arg v1.4.3
-	github.com/google/go-github/v56 v56.0.0
 )
 
-require (
-	github.com/alexflint/go-scalar v1.1.0 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
-)
+require github.com/alexflint/go-scalar v1.1.0 // indirect
