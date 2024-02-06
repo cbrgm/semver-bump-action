@@ -1,6 +1,6 @@
 module github.com/cbrgm/semver-bump-action
 
-go 1.21.6
+go 1.21.7
 
 require (
 	github.com/Masterminds/semver/v3 v3.2.1
