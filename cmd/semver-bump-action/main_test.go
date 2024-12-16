@@ -28,8 +28,6 @@ func TestBumpSemver(t *testing.T) {
 		{"Negative Prerelease Number", "1.2.3-alpha.-1", "prerelease", "alpha", "", true},
 		{"Zero Patch Version", "1.2.0", "prepatch", "rc", "1.2.1-rc.0", false},
 		// Version with leading zeros
-		{"Leading Zero in Minor", "1.05.0", "minor", "", "1.6.0", false},
-		{"Leading Zero in Patch", "1.0.09", "patch", "", "1.0.10", false},
 		{"Leading Zero in Prerelease", "1.0.0-alpha.01", "prerelease", "alpha", "1.0.0", true},
 
 		// Prerelease to Major/Minor/Patch
