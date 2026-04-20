@@ -135,17 +135,16 @@ func incrementPrereleaseVersion(v *semver.Version, preReleaseTag string) (semver
 	}
 
 	// If there's an existing prerelease version, increment it
-	if strings.HasPrefix(prerelease, preReleaseTag) {
+	if strings.HasPrefix(prerelease, preReleaseTag+".") {
 		parts := strings.SplitN(prerelease, ".", 2)
 		if len(parts) == 2 {
 			number, err := strconv.Atoi(parts[1])
 			if err != nil {
 				// Handle conversion error, which includes negative numbers
-				return *v, fmt.Errorf("invalid prerelease format: %w", err)
+				return semver.Version{}, fmt.Errorf("invalid prerelease format: %w", err)
 			}
 			if number < 0 {
-				// Explicitly handle negative numbers
-				return *v, fmt.Errorf("negative number in prerelease is not valid")
+				return semver.Version{}, fmt.Errorf("negative number in prerelease is not valid")
 			}
 			number++
 			return v.SetPrerelease(fmt.Sprintf("%s.%d", preReleaseTag, number))

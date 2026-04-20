@@ -43,6 +43,9 @@ func TestBumpSemver(t *testing.T) {
 		{"Empty Current Version", "", "major", "", "", true},
 		{"Non-numeric Version", "1.x.3", "major", "", "", true},
 		{"Unsupported Prerelease", "1.0.0", "premajor", "xyz123", "2.0.0-xyz123.0", false},
+
+		// Tag prefix collision: "alpha" must not match "alphabeta"
+		{"Prerelease Tag Prefix Collision", "1.2.3-alphabeta.5", "prerelease", "alpha", "1.2.3-alpha.0", false},
 	}
 
 	for _, tc := range testCases {
