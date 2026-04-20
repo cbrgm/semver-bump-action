@@ -10,7 +10,7 @@ func writeOutput(key, value string) {
 	if ghOutput, exists := os.LookupEnv("GITHUB_OUTPUT"); exists {
 		f, err := os.OpenFile(ghOutput, os.O_APPEND|os.O_WRONLY, 0o644)
 		if err != nil {
-			fmt.Println("Error opening GITHUB_OUTPUT file:", err)
+			fmt.Fprintln(os.Stderr, "Error opening GITHUB_OUTPUT file:", err)
 			return
 		}
 
@@ -19,7 +19,7 @@ func writeOutput(key, value string) {
 
 		_, err = fmt.Fprintf(f, "%s=%s\n", key, value)
 		if err != nil {
-			fmt.Println("Error writing to GITHUB_OUTPUT file:", err)
+			fmt.Fprintln(os.Stderr, "Error writing to GITHUB_OUTPUT file:", err)
 		}
 	} else {
 		fmt.Printf("::set-output name=%s::%s\n", key, value)
